@@ -1,6 +1,6 @@
 ---
 - name: Check Windows IP Address
-  hosts: Windows
+  hosts: "{{ target_group }}"
   gather_facts: no
   #become: no
   tasks:
