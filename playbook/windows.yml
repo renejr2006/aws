@@ -1,6 +1,6 @@
 ---
 - name: Check Windows IP Address
-  hosts: windows
+  hosts: 192.168.1.211
   gather_facts: no
   tasks:
     - name: Get IP address configuration
