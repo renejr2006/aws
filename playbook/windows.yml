@@ -1,6 +1,6 @@
 ---
 - name: Check Windows IP Address
-  hosts: windows
+  #hosts: windows
   gather_facts: no
   #become: no
   tasks:
