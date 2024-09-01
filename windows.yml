@@ -1,0 +1,13 @@
+---
+- name: Check Windows IP Address
+  hosts: windows
+  gather_facts: no
+  tasks:
+    - name: Get IP address configuration
+      ansible.windows.win_shell: |
+        Get-NetIPAddress -AddressFamily IPv4 | Select-Object -ExpandProperty IPAddress
+      register: ip_config
+
+    - name: Display IP address
+      debug:
+        msg: "The IP addresses are: {{ ip_config.stdout_lines }}"
