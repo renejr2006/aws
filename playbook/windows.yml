@@ -2,7 +2,7 @@
 - name: Check Windows IP Address
   hosts: 192.168.1.211
   gather_facts: no
-  become: yes
+  #become: no
   tasks:
     - name: Get IP address configuration
       ansible.windows.win_shell: |
