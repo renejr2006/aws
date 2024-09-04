@@ -1,0 +1,17 @@
+---
+- name: Show dmesg
+  hosts: mygroup
+  become: true
+  tasks:
+    - name: Load modprabe edac_mce_amd module
+      shell: modprobe edac_mce_amd
+      changed_when: false
+
+    - name: Run dmesg command
+      shell: dmesg -T | egrep -ivw default | egrep -i 'bert|mce|mca|error|lockup|fault'
+      register: dmesg_output
+      changed_when: false
+
+    - name: Display dmesg output
+      ansible.builtin.debug: 
+        msg: "{{ dmesg_output.stdout_lines  }}"

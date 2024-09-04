@@ -1,0 +1,42 @@
+---
+- name: Updating System
+  hosts: mygroup
+  become: yes
+  tasks:
+    - name: Check if SSH is installed
+      shell: dpkg -l | grep -w ssh
+      register: ssh_installed
+      ignore_errors: yes
+
+ #   - name: Display the SSH service status
+ #     debug:
+ #       var: ssh_installed.stdout_lines
+
+    - name: Install SSH if not installed
+      apt:
+        name: ssh
+        state: present
+      when: ssh_installed.rc !=0
+      register: install_ssh
+      notify:
+        - show_install_output
+
+    - name: Start and Enable SSH Service
+      shell: systemctl enable --now ssh
+      when:  install_ssh.changed
+      register: ssh_service_status
+      notify:
+        - show_service_output
+
+#    - name: Display the SSH service status
+#      debug:
+#        var: ssh_service_status.stdout_lines
+
+  handlers:
+    - name: show_install_output
+      debug:
+        var: install_ssh
+        
+    - name: show_service_output
+      debug:
+        var: ssh_service_status.stdout_lines

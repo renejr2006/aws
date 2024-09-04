@@ -1,0 +1,25 @@
+---
+- name: Updating System
+  hosts: mygroup
+  become: yes
+  tasks:
+    - name: Running Update and upgrades
+      shell: lsmod | egrep edac
+      register: upgrade_output
+
+    - name: Showing edac
+      debug:
+        msg: "{{ item  }}"
+      with_items: "{{ edac_output.stdout_lines }}"
+
+    - name: Configuring edac
+      shell: modprobe edac_mce_amd
+
+    - name: Showing edac
+      shell: lsmod | egrep edac
+      register: upgrade_output1
+
+    - name: Display edac output
+      debug:
+        msg: "{{ item  }}"
+      with_items: "{{ edac_output1.stdout_lines }}"

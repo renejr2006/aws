@@ -1,0 +1,21 @@
+---
+- name: Rename the System Hostname
+  hosts: mygroup
+  gather_facts: no
+  vars_prompt: 
+    - name: "new_hostname"
+      prompt: "Enter the new Hostname:"
+      private: no
+
+  tasks:
+    - name: Set the New Hostname
+      command: hostnamectl set-hostname "{{ new_hostname  }}"
+      become: yes
+
+    - name: Update /etc/hosts file
+      lineinfile:
+        path: /etc/hosts
+        regexp: '^127\.0\.1\.1'
+        line: "127.0.1.1 {{ new_hostname }}"
+      become: yes
+

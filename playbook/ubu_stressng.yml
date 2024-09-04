@@ -1,0 +1,37 @@
+---
+- name: IP
+  hosts: mygroup
+  gather_facts: True
+  become: yes
+  #vars_files:
+  #   - all.yml
+  tasks:
+    - name: Downloading stressng
+      command: >
+        wget -N ftp://10.230.136.14/Public/Rene/tests/stressng.tar.xz -O /tmp/stressng.tar.xz
+        
+    - name: Gave chmod +x to tar.xz 
+      ansible.builtin.file:
+        path: /tmp/stressng.tar.xz
+        mode: '0755'
+        state: file
+
+    - name: Extracting tar.xz
+      ansible.builtin.unarchive:
+        src: /tmp/stressng.tar.xz
+        dest: /tmp/
+        remote_src: yes
+
+#---------------------------------------------------
+#---------------------------------------------------
+    - name: Run ins
+      ansible.builtin.command:
+        cmd: /tmp/stressng/install-stressng-ubu.sh
+      args:
+        chdir: /tmp/stressng/
+        
+    - name: Run run-stressng
+      ansible.builtin.command:
+        cmd: /tmp/stressng/run-stressng.sh 86400 cmp
+      args:
+        chdir: /tmp/stressng

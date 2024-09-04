@@ -1,0 +1,13 @@
+---
+- name: Updating System
+  hosts: mygroup
+  become: yes
+  tasks:
+    - name: Running Update and upgrades
+      shell: apt-get update && apt-get upgrade -y
+      register: upgrade_output
+
+    - name: Display Update & Upgrade Output
+      debug:
+        msg: "{{ item  }}"
+      with_items: "{{ upgrade_output.stdout_lines }}"

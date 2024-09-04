@@ -1,0 +1,7 @@
+---
+- name: Setting Correct Timezone
+  hosts: mygroup
+  become: yes
+  tasks:
+    - name: Setting Correct Timezone
+      command: timedatectl set-timezone America/Chicago

@@ -1,0 +1,30 @@
+---
+- name: append to grub file
+  hosts: mygroup
+  become: yes
+  tasks:
+    - name: Read Current
+      command: grep ^GRUB_CMDLINE_LINUX_DEFAULT /etc/default/grub
+      register: grub_cmdline
+      changed_when: false
+      
+    - name: Display edac output
+      debug:
+        msg: grub_cmdline.stdout_lines
+
+    - name: Append custom
+      lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT'
+        line: "{{ grub_cmdline.stdout | regex_replace('^GRUB_CMDLINE_LINUX_DEFAULT=','GRUB_CMDLINE_LINUX_DEFAULT=') | regex_replace('\"$', ' ras=cec_disable console=tty0 console=ttyS1,115200n8 earlyprintk earlycon=uart8250,io,0x2F8,115200n8\"') }}"
+      when: grub_cmdline.stdout is defined and 'ras=cec_disable console=tty0 console=ttyS1,115200n8 earlyprintk earlycon=uart8250,io,0x2F8,115200n8' not in grub_cmdline.stdout
+
+    - name: update GRUB Config
+      command: update-grub
+#      register: update_grub_output
+#      when: grub_cmdline.stdout is defined and 'ras=cec_disable console=tty0 console=ttyS1,115200n8 earlyprintk earlycon=uart8250,io,0x2F8,115200n8' not in grub_cmdline.stdout
+
+#    - name: Display update grub output
+#      debug:
+#        msg: "{{ update_grub_output.stdout }}"
+#      when: update_grub_output is defined
