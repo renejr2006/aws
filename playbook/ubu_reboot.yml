@@ -1,6 +1,6 @@
 ---
 - name: Reboot Server
-  hosts: mygroup
+  hosts: linux
   become: yes
   tasks:
     - name: Reboot the server
