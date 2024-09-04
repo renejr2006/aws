@@ -1,0 +1,12 @@
+---
+- name: Check Linux IP Address
+  hosts: linux
+  gather_facts: no
+  tasks:
+    - name: Get IP address configuration
+      command: ip addr show
+      register: ip_config
+
+    - name: Display IP address
+      debug:
+        msg: "The IP address configuration is: {{ ip_config.stdout }}"
