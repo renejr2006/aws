@@ -1,6 +1,6 @@
 ---
 - name: Show dmesg
-  hosts: mygroup
+  hosts: linux
   become: true
   tasks:
     - name: Load modprabe edac_mce_amd module
