@@ -5,7 +5,7 @@
   tasks:
     - name: Running Update and upgrades
       shell: lsmod | egrep edac
-      register: upgrade_output
+      register: edac_output
 
     - name: Showing edac
       debug:
