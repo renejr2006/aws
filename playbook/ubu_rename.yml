@@ -1,6 +1,6 @@
 ---
 - name: Rename the System Hostname
-  hosts: mygroup
+  hosts: linux
   gather_facts: no
   vars_prompt: 
     - name: "new_hostname"
