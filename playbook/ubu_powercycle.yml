@@ -30,9 +30,9 @@
       args:
         chdir: /tmp/powercycle-setup/
         
-#    - name: Run Ubu
-#      register: command_output
-#      ansible.builtin.command:
-#        cmd: /tmp/powercycle-setup/setup-pc-sut-ubu.sh
-#      args:
-#        chdir: /tmp/powercycle-setup/
+    - name: Run Ubu
+      register: command_output
+      ansible.builtin.command:
+        cmd: /tmp/powercycle-setup/setup-pc-sut-ubu.sh
+      args:
+        chdir: /tmp/powercycle-setup/
