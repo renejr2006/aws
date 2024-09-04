@@ -1,6 +1,6 @@
 ---
 - name: Updating System
-  hosts: mygroup
+  hosts: linux
   become: yes
   tasks:
     - name: Running Update and upgrades
