@@ -1,6 +1,6 @@
 ---
 - name: append to grub file
-  hosts: mygroup
+  hosts: linux
   become: yes
   tasks:
     - name: Read Current
