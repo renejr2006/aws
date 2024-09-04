@@ -1,7 +1,7 @@
 ---
 - name: Show dmesg
   hosts: linux
-  become: true
+  #become: true
   tasks:
     - name: Load modprabe edac_mce_amd module
       shell: modprobe edac_mce_amd
