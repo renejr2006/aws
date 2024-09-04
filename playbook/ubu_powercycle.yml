@@ -1,6 +1,6 @@
 ---
 - name: Fetch file
-  hosts: mygroup
+  hosts: linux
   tasks:
     - name: Downloading  Powercycle Setup
       command: >
