@@ -1,6 +1,6 @@
 ---
 - name: Setting Correct Timezone
-  hosts: mygroup
+  hosts: linux
   become: yes
   tasks:
     - name: Setting Correct Timezone
