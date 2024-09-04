@@ -1,5 +1,6 @@
 [windows]
 192.168.1.211
+10.230.129.89
 
 [windows:vars]
 ansible_user=administrator
@@ -9,8 +10,10 @@ ansible_connection=winrm
 ansible_winrm_transport=ntlm
 ansible_winrm_server_cert_validation=ignore
 ansible_winrm_scheme=https
+
 [linux]
 192.168.1.176
+10.230.129.59
 
 [linux:vars]
 ansible_user=amd
