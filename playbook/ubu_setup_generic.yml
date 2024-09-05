@@ -15,6 +15,6 @@
     - name: Run update
       ansible.builtin.command:
         cmd: /tmp/generic-setup-ubu.sh
-      args:
-        chdir: /tmp/
+        args:
+          chdir: /tmp/
         
