@@ -41,7 +41,7 @@
 
     - name: Dispaly setup script output line by line
       ansible.builtin.debug:
-        msg: "{{ precheck.stdout_lines }}"
+        msg: "{{ precheck_output.stdout_lines }}"
 
     - name: Run update
       ansible.builtin.shell: /tmp/powercycle-setup/setup-pc-sut-ubu.sh
