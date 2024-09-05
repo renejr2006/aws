@@ -4,9 +4,8 @@
   tasks:
     - name: Get UTC Time
       ansible.builtin.command:
-        cmd: date -u + "%Y-%m-%d %H:%M:%S"
+        cmd: date -u +"%Y-%m-%d %H:%M:%S"
       register: utc_time
-
 
     - name: Get current Local Time
       ansible.builtin.command:
