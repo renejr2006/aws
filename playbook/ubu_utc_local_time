@@ -1,1 +1,22 @@
+---
+- name: Capture UTC and Local Time
+  hosts: linux
+  tasks:
+    - name: Get UTC Time
+      ansible.builtin.command:
+        cmd: date -u + "%Y-%m-%d %H:%M:%S"
+      register: utc_time
 
+
+    - name: Get current Local Time
+      ansible.builtin.command:
+        cmd: date +"%Y_%m-%d %H:%M:%S"
+      register: local_time
+
+    - name: Display UTC Time
+      ansible.builtin.debug:
+        msg: "Current UTC time is {{ utc_time.stdout }}"
+
+    - name: Display Local Time
+      ansible.builtin.debug:
+        msg: "Current Local Time is {{ local_time.stdout }}"
