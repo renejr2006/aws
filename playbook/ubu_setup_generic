@@ -1,1 +1,20 @@
+---
+- name: Fetch file
+  hosts: linux
+  tasks:
+    - name: Downloading  Powercycle Setup
+      command: >
+        wget -N ftp://10.230.136.14/Public/Rene/tests/generic-setup-ubu.sh -O /tmp/generic-setup-ubu.sh
+        
+    - name: Gave chmod +x to tar.xz 
+      ansible.builtin.file:
+        path: /tmp/generic-setup-ubu.sh
+        mode: '0755'
+        state: file
 
+    #- name: Run update
+    #  ansible.builtin.command:
+    #    cmd: /tmp/powercycle-setup/update.sh
+    #  args:
+    #    chdir: /tmp/powercycle-setup/
+        
