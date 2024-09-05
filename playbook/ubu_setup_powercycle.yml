@@ -11,7 +11,6 @@
       ansible.builtin.file:
         path: /tmp/powercycle-setup
         state: absent
-        recurse: yes
         
     - name: Downloading  Powercycle Setup
       command: >
