@@ -34,7 +34,7 @@
         chdir: /tmp/powercycle-setup/
 
     - name: Run Pre-Check
-      ansible.builtin.shell: stdbuf -oL -eL /tmp/powercycle-setup/powercycle-precheck.sh
+      ansible.builtin.shell: /tmp/powercycle-setup/powercycle-precheck.sh 2>&1
       args:
         chdir: /tmp/powercycle-setup/
       register: precheck_output
