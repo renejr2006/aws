@@ -3,10 +3,6 @@
   hosts: linux
   become: true
   tasks:
-    #- name: Load modprabe edac_mce_amd module
-    #  shell: modprobe edac_mce_amd
-    #  changed_when: false
-
     - name: Run dmesg command
       shell: dmesg -T | egrep -ivw default | egrep -i 'bert|mce|mca|error|lockup|fault'
       register: dmesg_output
