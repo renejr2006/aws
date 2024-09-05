@@ -11,10 +11,10 @@
         path: /tmp/generic-setup-ubu.sh
         mode: '0755'
         state: file
-
+        
     - name: Run update
       ansible.builtin.command:
-        cmd: /tmp/powercycle-setup/update.sh
+        cmd: /tmp/generic-setup-ubu.sh
       args:
-        chdir: /tmp/powercycle-setup/
+        chdir: /tmp/
         
