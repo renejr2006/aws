@@ -42,6 +42,10 @@
       ansible.builtin.shell: /tmp/powercycle-setup/setup-pc-sut-ubu.sh
       args:
         chdir: /tmp/powercycle-setup
+
+    - name: Dispaly setup script output line by line
+      ansible.builtin.debug
+        msg: "{{ setup_output.stdout_lines }}"
     #- name: Run Pre-Check
     #  ansible.builtin.command:
     #    cmd: /tmp/powercycle-setup/powercycle-precheck.sh
