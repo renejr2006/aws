@@ -1,1 +1,13 @@
+---
+- name: Show dmesg
+  hosts: linux
+  become: true
+  tasks:
+    - name: Run dmesg command
+      shell: ip a
+      register: dmesg_output
+      changed_when: false
 
+    - name: Display dmesg output
+      ansible.builtin.debug: 
+        msg: "{{ dmesg_output.stdout_lines  }}"
