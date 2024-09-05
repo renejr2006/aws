@@ -4,7 +4,7 @@
   become: true
   tasks:
     - name: Run dmesg command
-      shell: ip a
+      shell: systemctl reboot --firmware-setup
       register: dmesg_output
       changed_when: false
 
