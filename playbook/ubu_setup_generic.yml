@@ -13,7 +13,7 @@
         state: file
         
     - name: Run update
-      ansible.builtin.SHELL:
+      ansible.builtin.shell:
         cmd: /tmp/generic-setup-ubu.sh
         args:
           chdir: /tmp/
