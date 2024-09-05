@@ -12,17 +12,10 @@
         cmd: date +"%Y_%m-%d %H:%M:%S"
       register: local_time_24hr
 
-
-
-
     - name: Convert Local Time to 12-hr format with AM/PM
       ansible.builtin.command:
         cmd: date +"%Y_%m-%d %I:%M %p"
       register: local_time_12hr
-
-
-
-
 
     - name: Display UTC Time
       ansible.builtin.debug:
