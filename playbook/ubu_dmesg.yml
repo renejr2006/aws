@@ -1,7 +1,7 @@
 ---
 - name: Show dmesg
   hosts: linux
-  become: true
+  become: yes
   tasks:
     - name: Run dmesg command
       shell:  stdbuf -oL -eL dmesg -T | egrep -ivw default | egrep -i 'bert|mce|mca|error|lockup|fault' 2>&1
