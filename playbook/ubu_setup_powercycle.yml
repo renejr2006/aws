@@ -1,7 +1,7 @@
 ---
 - name: Fetch file
   hosts: linux
-  become: yes
+  become: True
   tasks:
     - name: Remove existing tar.xz if it exists
       ansible.builtin.file:
