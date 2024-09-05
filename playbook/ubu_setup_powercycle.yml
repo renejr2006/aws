@@ -44,12 +44,12 @@
       ansible.builtin.debug:
         msg: "{{ precheck_output.stdout_lines }}"
 
-    #- name: Run update
-    #  ansible.builtin.shell: /tmp/powercycle-setup/setup-pc-sut-ubu.sh
-    #  args:
-    #    chdir: /tmp/powercycle-setup
-    #  register: setup_output
+    - name: Run update
+      ansible.builtin.shell: /tmp/powercycle-setup/setup-pc-sut-ubu.sh
+      args:
+        chdir: /tmp/powercycle-setup
+      register: setup_output
 
-    #- name: Dispaly setup script output line by line
-    #  ansible.builtin.debug:
-    #    msg: "{{ setup_output.stdout_lines }}"
+    - name: Dispaly setup script output line by line
+      ansible.builtin.debug:
+        msg: "{{ setup_output.stdout_lines }}"
