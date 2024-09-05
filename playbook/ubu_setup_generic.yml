@@ -3,6 +3,11 @@
   hosts: linux
   become: yes
   tasks:
+    - name: Remove existing script if it exists
+      ansible.builtin.file:
+        path: /tmp/generic-setup-ubu.sh
+        state: present
+  
     - name: Downloading  Powercycle Setup
       command: >
         wget -N ftp://10.230.136.14/Public/Rene/tests/generic-setup-ubu.sh -O /tmp/generic-setup-ubu.sh
