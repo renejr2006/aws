@@ -44,7 +44,7 @@
         chdir: /tmp/powercycle-setup
 
     - name: Dispaly setup script output line by line
-      ansible.builtin.debug
+      ansible.builtin.debug:
         msg: "{{ setup_output.stdout_lines }}"
     #- name: Run Pre-Check
     #  ansible.builtin.command:
