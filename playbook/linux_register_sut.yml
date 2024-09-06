@@ -1,1 +1,14 @@
+---
+- name: Register a host in the 'linux' group
+  hosts: localhost
+  gather_facts: no
 
+  tasks:
+    - name: Add the host to the linux group in the inventory
+      add_host:
+        name: "{{ system_name }}"
+        groups: linux
+
+    - name: Display registered host
+      debug:
+        msg: "Host {{ system_name }} has been added to the linux group."
