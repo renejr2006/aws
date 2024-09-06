@@ -7,6 +7,7 @@
     - name: Add the host to the linux group in the inventory
       add_host:
         name: "{{ system_name }}"
+        groups: "Systems Lab"
 
     - name: Display registered host
       debug:
