@@ -1,45 +1,52 @@
 ---
 - name: IP
-  hosts: linux
-  gather_facts: true
+  hosts: mygroup
+  gather_facts: True
   become: yes
-  vars:
-    runtime: 1440000  # Default runtime in minutes, can be overridden by --extra-vars
-
+ # vars_files:
+ #    - all.yml
   tasks:
-    - name: Capture start time
-      ansible.builtin.command: date +%s
-      register: start_time
+    - name: Downloading FHC
+      command: >
+        wget -N ftp://10.230.136.14/Public/Rene/tests/fhc.tar.xz -O /tmp/fhc.tar.xz
+        
+    - name: Gave chmod +x to tar.xz 
+      ansible.builtin.file:
+        path: /tmp/fhc.tar.xz
+        mode: '0755'
+        state: file
 
-    - name: Run FHC test with dynamic runtime
-      ansible.builtin.shell: |
-        PATH=/usr/local/bin:/usr/bin:/bin ./run-fhc.sh {{ runtime }}
+    - name: Extracting tar.xz
+      ansible.builtin.unarchive:
+        src: /tmp/fhc.tar.xz
+        dest: /tmp/
+        remote_src: yes
+
+    - name: Run install-fhc-ubu
+      ansible.builtin.command:
+        cmd: /tmp/fhc/install-fhc-ubu.sh
+      args:
+        chdir: /tmp/fhc/
+       
+    - name: run modprobe
+      command: modprobe edac_mce_amd
+        
+    - name: Run run-stressng
+      ansible.builtin.command:
+        cmd: /tmp/fhc/run-fhc.sh 1440
       args:
         chdir: /tmp/fhc
-      register: script_output
-      ignore_errors: no
-      environment:
-        TERM: "xterm"
 
-    - name: Capture end time
-      ansible.builtin.command: date +%s
-      register: end_time
+    #- name: sdfd
+    #  shell: |
+    #    PATH=/user/local/bin:/usr/bin: /home/amd/fhc/run-fhc.sh 1440
+    #  args:
+    #    chdir: /home/amd/fhc
+    #  register: script_ouput
+#      async: 3600
+#      poll: 0
+    #  ignore_errors: no
 
-    - name: Calculate actual runtime
-      ansible.builtin.set_fact:
-        actual_runtime: "{{ end_time.stdout | int - start_time.stdout | int }}"
-
-    - name: Convert runtime to seconds
-      ansible.builtin.set_fact:
-        expected_runtime_seconds: "{{ runtime | int * 60 }}"
-
-    - name: Fail if runtime is less than expected
-      ansible.builtin.fail:
-        msg: >
-          Test failed. Actual runtime was {{ actual_runtime }} seconds, which is less than the expected runtime of {{ expected_runtime_seconds }} seconds ({{ runtime }} minutes).
-      when: actual_runtime < expected_runtime_seconds
-
-    - name: Output success message if runtime was as expected
-      ansible.builtin.debug:
-        msg: "The test completed successfully. Actual runtime: {{ actual_runtime }} seconds."
-      when: actual_runtime >= expected_runtime_seconds
+#    - name: show Output
+#      debug:
+#        var: script_output.stdout
