@@ -1,0 +1,52 @@
+---
+- name: IP
+  hosts: mygroup
+  gather_facts: True
+  become: yes
+ # vars_files:
+ #    - all.yml
+  tasks:
+    - name: Downloading FHC
+      command: >
+        wget -N ftp://10.230.136.14/Public/Rene/tests/fhc.tar.xz -O /tmp/fhc.tar.xz
+        
+    - name: Gave chmod +x to tar.xz 
+      ansible.builtin.file:
+        path: /tmp/fhc.tar.xz
+        mode: '0755'
+        state: file
+
+    - name: Extracting tar.xz
+      ansible.builtin.unarchive:
+        src: /tmp/fhc.tar.xz
+        dest: /tmp/
+        remote_src: yes
+
+    - name: Run install-fhc-ubu
+      ansible.builtin.command:
+        cmd: /tmp/fhc/install-fhc-ubu.sh
+      args:
+        chdir: /tmp/fhc/
+       
+    - name: run modprobe
+      command: modprobe edac_mce_amd
+        
+#    - name: Run run-stressng
+#      ansible.builtin.command:
+#        cmd: /tmp/fhc/run-fhc.sh 1440
+#      args:
+#        chdir: /tmp/fhc
+
+    - name: sdfd
+      shell: |
+        PATH=/user/local/bin:/usr/bin: /home/amd/fhc/run-fhc.sh 1440
+      args:
+        chdir: /home/amd/fhc
+      register: script_ouput
+#      async: 3600
+#      poll: 0
+      ignore_errors: no
+
+#    - name: show Output
+#      debug:
+#        var: script_output.stdout
