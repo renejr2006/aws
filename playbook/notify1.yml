@@ -14,3 +14,8 @@
             echo "System Test Running: A system test is in progress. Please do not shut down or restart the system." > /dev/$tty
         done
       when: system_test_running.rc == 0
+
+    - name: Update MOTD with system test running message
+      copy:
+        countent: "System Test Running: Please do no Shutdown or Restart the system.\n"
+        dest: /etc/motd
