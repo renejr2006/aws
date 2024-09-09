@@ -3,6 +3,13 @@
   hosts: linux
   become: yes
   tasks:
+      - name: Broadcast system test message to all users
+      shell: |
+        for tty in $(who | awk '{print $2}'); do
+            echo "System Test Running: A system test Completed. System is now ready to be used." > /dev/$tty
+        done
+      when: system_test_running.rc == 0
+      
     - name: Update MOTD with system test running message
       copy:
         content: ""
