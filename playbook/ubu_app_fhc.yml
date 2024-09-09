@@ -39,9 +39,9 @@
 
     - name: sdfd
       shell: |
-        PATH=/user/local/bin:/usr/bin: /home/amd/fhc/run-fhc.sh 1440
+        PATH=/user/local/bin:/usr/bin: /tmp/fhc/run-fhc.sh 1440
       args:
-        chdir: /home/amd/fhc
+        chdir: /tmp/fhc
       register: script_ouput
 #      async: 3600
 #      poll: 0
