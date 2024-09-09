@@ -47,7 +47,7 @@
       
     - name: Run run-stressng
       ansible.builtin.command:  
-        cmd: timeout 86400 /tmp/fhc/run-fhc.sh 86400
+        cmd: ./run-fhc.sh 86400
       args:
         chdir: /tmp/fhc/
       register: setup_output
