@@ -38,7 +38,7 @@
 #        chdir: /tmp/fhc
 
     - name: sdfd
-      shell: |
+      ansible.builtin.shell: |
         PATH=/user/local/bin:/usr/bin: /tmp/fhc/run-fhc.sh 1440
       args:
         chdir: /tmp/fhc
