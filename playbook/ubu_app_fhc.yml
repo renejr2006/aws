@@ -22,20 +22,42 @@
         dest: /tmp/
         remote_src: yes
 
+    #- name: Run install-fhc-ubu
+    #  ansible.builtin.command:
+    #    cmd: /tmp/fhc/install-fhc-ubu.sh
+    #  args:
+    #    chdir: /tmp/fhc/
+       
+    #- name: run modprobe
+    #  command: modprobe edac_mce_amd
+        
+    #- name: Run run-stressng
+    #  ansible.builtin.command:
+    #    cmd: /tmp/fhc/run-fhc.sh 1440
+    #  args:
+    #    chdir: /tmp/fhc
+
+
+
     - name: Run install-fhc-ubu
-      ansible.builtin.command:
-        cmd: /tmp/fhc/install-fhc-ubu.sh
+      ansible.builtin.shell: /tmp/fhc/install-fhc-ubu.sh
       args:
         chdir: /tmp/fhc/
-       
-    - name: run modprobe
-      command: modprobe edac_mce_amd
-        
+      register: setup_output
+      
     - name: Run run-stressng
-      ansible.builtin.command:
-        cmd: /tmp/fhc/run-fhc.sh 1440
+      ansible.builtin.shell: /tmp/fhc/run-fhc.sh 1440
       args:
-        chdir: /tmp/fhc
+        chdir: /tmp/fhc/
+      register: setup_output
+
+
+
+
+
+
+
+
 
     #- name: sdfd
     #  shell: |
