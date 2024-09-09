@@ -1,0 +1,36 @@
+---
+- name: IP
+  hosts: linux
+  gather_facts: True
+  become: yes
+  vars_files:
+     - all.yml
+  tasks:
+    - name: Downloading stream
+      command: >
+        wget -N ftp://10.230.136.14/Public/Rene/tests/stream.tar.xz -O /tmp/stream.tar.xz
+        
+    - name: Gave chmod +x to tar.xz 
+      ansible.builtin.file:
+        path: /tmp/stream.tar.xz
+        mode: '0755'
+        state: file
+
+    - name: Extracting tar.xz
+      ansible.builtin.unarchive:
+        src: /tmp/stream.tar.xz
+        dest: /tmp/
+        remote_src: yes
+        
+#---------------------------------------------------
+#---------------------------------------------------
+    - name: Run ins
+      ansible.builtin.command:
+        cmd: /tmp/stream/install-stream-ubu.sh
+      args:
+        chdir: /tmp/stream/
+        
+    - name: Run run-stream
+      ansible.builtin.shell:
+        cmd: "/tmp/stream/run-stream.sh 86400"
+        #chdir: /tmp/stream
