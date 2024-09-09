@@ -17,5 +17,5 @@
 
     - name: Update MOTD with system test running message
       copy:
-        countent: "System Test Running: Please do no Shutdown or Restart the system.\n"
+        content: "System Test Running: Please do no Shutdown or Restart the system.\n"
         dest: /etc/motd
