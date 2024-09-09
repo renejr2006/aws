@@ -1,0 +1,5 @@
+---
+- name: Notify users with custom script
+  hosts: linux
+  become: yes
+  tasks:
