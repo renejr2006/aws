@@ -46,4 +46,5 @@
 #      async: 3600
 #      poll: 0
       ignore_errors: no
-      TERM: 'xterm"
+      environment:
+        TERM: 'xterm"
