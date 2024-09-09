@@ -1,6 +1,6 @@
 ---
 - name: IP
-  hosts: mygroup
+  hosts: linux
   gather_facts: True
   become: yes
  # vars_files:
