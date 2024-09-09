@@ -47,7 +47,3 @@
 #      poll: 0
       ignore_errors: no
       TERM: 'xterm"
-
-#    - name: show Output
-#      debug:
-#        var: script_output.stdout
