@@ -1,0 +1,17 @@
+---
+- name: Notify users about system test running
+  hosts: all
+  become: yes
+  tasks:
+    - name: Check if a system test is running
+      shell: pgrep -f "system_test"
+      register: system_test_running
+      ignore_errors: yes
+
+    - name: Notify users via wall that system test is running
+      shell: echo "System Test Running: A system test is currently in progress. Please do not shut down or restart the system." | wall
+      when: system_test_running.rc == 0
+
+    - name: Notify users via wall that no system test is running
+      shell: echo "No System Test Running: There is no system test currently running." | wall
+      when: system_test_running.rc != 0
