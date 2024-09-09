@@ -3,15 +3,15 @@
   hosts: linux
   become: yes
   tasks:
-      - name: Check if a system test is running
+    - name: Check if a system test is running
       shell: pgrep -f "system_test"
       register: system_test_running
       ignore_errors: yes
-      
-      - name: Broadcast system test message to all users
+
+    - name: Broadcast system test message to all users
       shell: |
         for tty in $(who | awk '{print $2}'); do
-            echo "System Test Running: A system test Completed. System is now ready to be used." > /dev/$tty
+            echo "System Test Running: A system test is in progress. Please do not shut down or restart the system." > /dev/$tty
         done
       when: system_test_running.rc == 0
       
