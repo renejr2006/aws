@@ -47,4 +47,4 @@
 #      poll: 0
       ignore_errors: no
       environment:
-        TERM: 'xterm"
+        TERM: "xterm"
