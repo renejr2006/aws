@@ -1,6 +1,6 @@
 ---
 - name: Notify users with custom script
-  hosts: all
+  hosts: linux
   become: yes
   tasks:
     - name: Check if a system test is running
