@@ -46,7 +46,8 @@
       register: setup_output
       
     - name: Run run-stressng
-      ansible.builtin.shell: /tmp/fhc/run-fhc.sh 1440
+      ansible.builtin.shell: |
+        PATH=/usr/local/bin:/usr/bin:/bin /tmp/fhc/run-fhc.sh 1440
       args:
         chdir: /tmp/fhc/
       register: setup_output
