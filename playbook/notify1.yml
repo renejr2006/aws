@@ -4,14 +4,14 @@
   become: yes
   tasks:
     - name: Check if a system test is running
-      cmd: pgrep -f "system_test"
+      shell: pgrep -f "system_test"
       register: system_test_running
       ignore_errors: yes
 
     - name: Notify users via wall that system test is running
-      cmd: echo "System Test Running: A system test is currently in progress. Please do not shut down or restart the system." | wall
+      shell: echo "System Test Running: A system test is currently in progress. Please do not shut down or restart the system." | wall
       when: system_test_running.rc == 0
 
     - name: Notify users via wall that no system test is running
-      cmd: echo "No System Test Running: There is no system test currently running." | wall
+      shell: echo "No System Test Running: There is no system test currently running." | wall
       when: system_test_running.rc != 0
