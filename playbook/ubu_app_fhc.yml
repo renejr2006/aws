@@ -4,7 +4,7 @@
   gather_facts: true
   become: yes
   vars:
-    runtime: 1440  # Default runtime in minutes, can be overridden by --extra-vars
+    runtime: 1440000  # Default runtime in minutes, can be overridden by --extra-vars
 
   tasks:
     - name: Capture start time
