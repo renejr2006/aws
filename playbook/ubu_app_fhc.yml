@@ -35,3 +35,4 @@
         cmd: /tmp/sat/run-sat.sh 86400 cmp
       args:
         chdir: /tmp/sat
+        ignore_errors: yes
