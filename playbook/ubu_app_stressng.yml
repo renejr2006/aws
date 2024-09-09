@@ -32,6 +32,8 @@
         
     - name: Run run-stressng
       ansible.builtin.command:
-        cmd: /tmp/stressng/run-stressng.sh 86400 cmp
+        cmd: ./run-stressng.sh 86400 cmp
+        #cmd: /tmp/stressng/run-stressng.sh 86400 cmp
+        
       args:
         chdir: /tmp/stressng
