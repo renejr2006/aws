@@ -13,5 +13,5 @@
       when: system_test_running.rc == 0
 
     - name: Notify users a test is not running
-      ansible.builltin.shell: notify-send "No System Test is Running" "There is no system test currently running."
+      ansible.builtin.shell: notify-send "No System Test is Running" "There is no system test currently running."
       when: system_test_running.rc != 0
