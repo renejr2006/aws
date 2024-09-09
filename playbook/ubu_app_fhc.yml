@@ -51,7 +51,7 @@
         chdir: /tmp/fhc/
       register: setup_output
       environment:
-        TERM="xterm"
+        TERM: "xterm"
 
 
 
