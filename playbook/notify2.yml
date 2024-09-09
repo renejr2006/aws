@@ -3,6 +3,11 @@
   hosts: linux
   become: yes
   tasks:
+      - name: Check if a system test is running
+      shell: pgrep -f "system_test"
+      register: system_test_running
+      ignore_errors: yes
+      
       - name: Broadcast system test message to all users
       shell: |
         for tty in $(who | awk '{print $2}'); do
