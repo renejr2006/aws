@@ -39,7 +39,7 @@
 
     - name: sdfd
       ansible.builtin.shell: |
-        PATH=/user/local/bin:/usr/bin:/bin ./tmp/fhc/run-fhc.sh 86400
+        PATH=/user/local/bin:/usr/bin:/bin "./tmp/fhc/run-fhc.sh 86400"
       args:
         chdir: /tmp/fhc
       register: script_ouput
