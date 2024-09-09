@@ -3,3 +3,7 @@
   hosts: linux
   become: yes
   tasks:
+    - name: Update MOTD with system test running message
+      copy:
+        content: ""
+        dest: /etc/motd
