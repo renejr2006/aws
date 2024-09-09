@@ -3,8 +3,8 @@
   hosts: linux
   gather_facts: True
   become: yes
-  vars_files:
-     - all.yml
+  #vars_files:
+  #   - all.yml
   tasks:
     - name: Downloading stream
       command: >
@@ -21,16 +21,26 @@
         src: /tmp/stream.tar.xz
         dest: /tmp/
         remote_src: yes
-        
 #---------------------------------------------------
 #---------------------------------------------------
-    - name: Run ins
-      ansible.builtin.command:
-        cmd: /tmp/stream/install-stream-ubu.sh
+    - name: Run Install Stream
+      ansible.builtin.shell: /stream/install-stream-ubu.sh
       args:
         chdir: /tmp/stream/
         
-    - name: Run run-stream
-      ansible.builtin.shell:
-        cmd: "/tmp/stream/run-stream.sh 86400"
-        #chdir: /tmp/stream
+    - name: Run Stream 86400
+      ansible.builtin.shell: "/tmp/stream/run-stream.sh 86400"
+      args:
+        chdir: /tmp/stream/
+#---------------------------------------------------
+#---------------------------------------------------
+ #   - name: Run ins
+ #     ansible.builtin.command:
+ #       cmd: /tmp/stream/install-stream-ubu.sh
+ #     args:
+ #       chdir: /tmp/stream/
+        
+ #   - name: Run run-stream
+ #     ansible.builtin.shell:
+ #       cmd: "/tmp/stream/run-stream.sh 86400"
+ #       #chdir: /tmp/stream
