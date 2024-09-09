@@ -24,7 +24,7 @@
 #---------------------------------------------------
 #---------------------------------------------------
     - name: Run Install Stream
-      ansible.builtin.shell: /stream/install-stream-ubu.sh
+      ansible.builtin.shell: /tmp/stream/install-stream-ubu.sh
       args:
         chdir: /tmp/stream/
         
