@@ -47,7 +47,7 @@
       
     - name: Run run-stressng
       ansible.builtin.command:  
-        cmd: ./run-fhc.sh 86400
+        cmd: "./run-fhc.sh " "86400"
       args:
         chdir: /tmp/fhc/
       register: setup_output
