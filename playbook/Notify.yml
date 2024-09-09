@@ -1,0 +1,17 @@
+---
+- name: User Notifications
+  hosts: linux
+  become: yes
+  tasks: 
+    - name: Check is a test is running
+      shell: pgrep -f "system_test"
+      register: system_test_running
+      ignore_errors: yes
+
+    - name: Notify users a test is running
+      ansible.builtin.shell: notify-send "System Test is Running" "A system test is currently in progress. Please do not shutdown or restart the system."
+      when: system_test_running.rc == 0
+
+    - name: Notify users a test is not running
+      ansible.builltin.shell: notify-send "No System Test is Running" "There is no system test currently running."
+      when: system_test_running.rc != 0
