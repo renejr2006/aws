@@ -13,7 +13,7 @@
 
     - name: Run FHC test with dynamic runtime
       ansible.builtin.shell: |
-        PATH=/usr/local/bin:/usr/bin:/bin /tmp/fhc/run-fhc.sh {{ runtime }}
+        PATH=/usr/local/bin:/usr/bin:/bin ./run-fhc.sh {{ runtime }}
       args:
         chdir: /tmp/fhc
       register: script_output
