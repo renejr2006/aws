@@ -3,75 +3,35 @@
   hosts: linux
   gather_facts: True
   become: yes
- # vars_files:
- #    - all.yml
+  #vars_files:
+  #   - all.yml
   tasks:
-    - name: Downloading FHC
+    - name: Downloading stressng
       command: >
-        wget -N ftp://10.230.136.14/Public/Rene/tests/fhc.tar.xz -O /tmp/fhc.tar.xz
+        wget -N ftp://10.230.136.14/Public/Rene/tests/sat.tar.xz -O /tmp/sat.tar.xz
         
     - name: Gave chmod +x to tar.xz 
       ansible.builtin.file:
-        path: /tmp/fhc.tar.xz
+        path: /tmp/sat.tar.xz
         mode: '0755'
         state: file
 
     - name: Extracting tar.xz
       ansible.builtin.unarchive:
-        src: /tmp/fhc.tar.xz
+        src: /tmp/sat.tar.xz
         dest: /tmp/
         remote_src: yes
 
-    #- name: Run install-fhc-ubu
-    #  ansible.builtin.command:
-    #    cmd: /tmp/fhc/install-fhc-ubu.sh
-    #  args:
-    #    chdir: /tmp/fhc/
-       
-    #- name: run modprobe
-    #  command: modprobe edac_mce_amd
+#---------------------------------------------------
+#---------------------------------------------------
+    - name: Run ins
+      ansible.builtin.command:
+        cmd: /tmp/sat/install-sat-ubu.sh
+      args:
+        chdir: /tmp/sat/
         
-    #- name: Run run-stressng
-    #  ansible.builtin.command:
-    #    cmd: /tmp/fhc/run-fhc.sh 1440
-    #  args:
-    #    chdir: /tmp/fhc
-
-
-
-    - name: Run install-fhc-ubu
-      ansible.builtin.shell: /tmp/fhc/install-fhc-ubu.sh
+    - name: Run run-sat
+      ansible.builtin.command:
+        cmd: /tmp/sat/run-sat.sh 86400 cmp
       args:
-        chdir: /tmp/fhc/
-      register: setup_output
-      
-    - name: Run run-stressng
-      ansible.builtin.command:  
-        cmd: "./run-fhc.sh 86400"
-      args:
-        chdir: /tmp/fhc/
-      register: setup_output
-      environment:
-        TERM: "xterm"
-
-
-
-
-
-
-
-
-
-    #- name: sdfd
-    #  shell: |
-    #    PATH=/user/local/bin:/usr/bin: /home/amd/fhc/run-fhc.sh 1440
-    #  args:
-    #    chdir: /home/amd/fhc
-    #  register: script_ouput
-#      async: 3600
-#      poll: 0
-    #  ignore_errors: no
-
-#    - name: show Output
-#      debug:
-#        var: script_output.stdout
+        chdir: /tmp/sat
