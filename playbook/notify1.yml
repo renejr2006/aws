@@ -11,7 +11,7 @@
     - name: Broadcast system test message to all users
       shell: |
         for tty in $(who | awk '{print $2}'); do
-            echo /n"System Test Running: A system test is in progress. Please do not shut down or restart the system." > /dev/$tty
+            /n echo "System Test Running: A system test is in progress. Please do not shut down or restart the system." > /dev/$tty
         done
       when: system_test_running.rc == 0
 
