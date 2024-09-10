@@ -1,0 +1,23 @@
+---
+- name: Add a new host to the inventory
+  hosts: localhost
+  gather_facts: no
+  vars:
+    repo_url: "https://github.com/renejr2006/aws.git"
+    repo_name: "aws"
+    repo_path: "/tmp/{{ repo_name }}"
+    branch: "main"
+    inventory_file: "{{ repo_path }}/inventory"
+    new_host:
+  tasks:
+    - name: Add new host entry to the inventory file
+      lineinfile:
+        path: "/home/amd/ansible/inventory"      # Path to your inventory file
+        line: "{{ new_host }}"
+        insertafter: "[my_hosts]"       # Add host under this group
+      vars:
+        new_host: "my-new-host ansible_host={{ host_ip }} ansible_user={{ ansible_user }}"
+
+    - name: Display the newly added host
+      debug:
+        msg: "Host {{ new_host }} added to the inventory."
