@@ -32,6 +32,6 @@
         
     - name: Run run-p95
       ansible.builtin.command:
-        cmd: /tmp/stressng/run-p95.sh 86400 cmp
+        cmd: /tmp/p95/run-p95.sh 86400 cmp
       args:
         chdir: /tmp/stressng
