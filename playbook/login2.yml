@@ -1,6 +1,6 @@
 ---
 - name: Add host to AWX inventory group
-  hosts: localhost
+  hosts: linux
   tasks:
     - name: Get ID for the group
       uri:
