@@ -1,57 +1,62 @@
 ---
-- name: Manage Ansible inventory in GitHub repository
+- name: Add host to AWX inventory group
   hosts: localhost
-  gather_facts: no
-  vars:
-    repo_url: "https://github.com/renejr2006/aws.git"  # Your GitHub repository URL
-    repo_name: "aws"
-    repo_path: "/tmp/{{ repo_name }}"
-    branch: "main"
-    new_host: "my-new-host ansible_host={{ host_ip }} ansible_user={{ ansible_user }}"
-    
-    # Set these values as needed for your inventory
-    host_ip: "192.168.1.50"  # Replace with the actual IP of the new host
-    ansible_user: "admin"    # Replace with the actual user for the new host
-
   tasks:
-    - name: Clone the GitHub repository
-      git:
-        repo: "{{ repo_url }}"
-        dest: "{{ repo_path }}"
-        version: "{{ branch }}"
-        force: yes
-      # The Source Control credential in AWX will be used for GitHub authentication
+    - name: Get ID for the group
+      uri:
+        url: "http://your-awx-server/api/v2/inventory_groups/?inventory={{ inventory_id }}&name=linux"
+        method: GET
+        headers:
+          Authorization: "Bearer {{ awx_api_token }}"
+          Content-Type: "application/json"
+        validate_certs: no
+      register: group_response
 
-    - name: Ensure the inventory file exists in the repo
-      stat:
-        path: "{{ repo_path }}/inventory"
-      register: inventory_file_check
+    - name: Add host to the group
+      uri:
+        url: "http://your-awx-server/api/v2/groups/{{ group_response.json.results[0].id }}/hosts/"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ awx_api_token }}"
+          Content-Type: "application/json"
+        body:
+          id: "{{ host_id }}"
+        body_format: json
+        validate_certs: no
+      vars:
+        host_id: "{{ host_response.json.id }}"
+      register: add_host_response
 
-    - name: Fail if no inventory file is found in the repository
-      fail:
-        msg: "No inventory file found in the repository!"
-      when: not inventory_file_check.stat.exists
+    - name: Get ID for the host
+      uri:
+        url: "http://your-awx-server/api/v2/hosts/?name=192.168.100.100"
+        method: GET
+        headers:
+          Authorization: "Bearer {{ awx_api_token }}"
+          Content-Type: "application/json"
+        validate_certs: no
+      register: host_response
 
-    - name: Add new host entry to the inventory file
-      lineinfile:
-        path: "{{ repo_path }}/inventory"
-        line: "{{ new_host }}"
-        insertafter: "[my_hosts]"  # Adjust this based on your inventory file structure
-      register: inventory_update
+    - name: Create new host if not found
+      uri:
+        url: "http://your-awx-server/api/v2/hosts/"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ awx_api_token }}"
+          Content-Type: "application/json"
+        body:
+          name: "192.168.100.100"
+          description: "New host"
+          inventory: "{{ inventory_id }}"
+        body_format: json
+        validate_certs: no
+      register: host_create_response
+      when: host_response.json.results | length == 0
 
-    - name: Commit changes if the inventory was updated
-      command: "git commit -am 'Added {{ new_host }} to inventory'"
-      args:
-        chdir: "{{ repo_path }}"
-      when: inventory_update.changed
-
-    - name: Push the changes to the GitHub repository
-      command: "git push origin {{ branch }}"
-      args:
-        chdir: "{{ repo_path }}"
-      when: inventory_update.changed
-
-    - name: Display a message if the new host was added
+    - name: Debug responses
       debug:
-        msg: "Host {{ new_host }} added to the inventory."
-      when: inventory_update.changed
+        msg:
+          - "Group response: {{ group_response }}"
+          - "Add host response: {{ add_host_response }}"
+          - "Host response: {{ host_response }}"
+          - "Host create response: {{ host_create_response }}"
