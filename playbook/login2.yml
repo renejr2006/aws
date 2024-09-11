@@ -14,7 +14,7 @@
 
     - name: Get file content from GitHub
       uri:
-        url: "https://api.github.com/repos/renejr2006/aws/inventory?ref=main"
+        url: "https://api.github.com/repos/renejr2006/aws/contents/path/to/inventory_file?ref=main"
         method: GET
         headers:
           Authorization: "token {{ github_token }}"
@@ -37,7 +37,7 @@
 
     - name: Commit changes to GitHub
       uri:
-        url: "https://api.github.com/repos/renejr2006/aws/inventory"
+        url: "https://api.github.com/repos/renejr2006/aws/contents/path/to/inventory_file"
         method: PUT
         headers:
           Authorization: "token {{ github_token }}"
