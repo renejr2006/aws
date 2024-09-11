@@ -1,13 +1,17 @@
+---
 - name: Manage Ansible inventory in GitHub repository
   hosts: localhost
   gather_facts: no
   vars:
-    repo_url: "https://github.com/renejr2006/aws.git"  # No need to include username/token
+    repo_url: "https://github.com/renejr2006/aws.git"  # No need to include credentials here
     repo_name: "aws"
     repo_path: "/tmp/{{ repo_name }}"
     branch: "main"
-    inventory_file: "{{ repo_path }}/inventory"
     new_host: "my-new-host ansible_host={{ host_ip }} ansible_user={{ ansible_user }}"
+    
+    # Set these values as needed for your inventory
+    host_ip: "192.168.1.50"  # Replace with the actual IP of the new host
+    ansible_user: "admin"    # Replace with the actual user for the new host
 
   tasks:
     - name: Clone the GitHub repository
@@ -16,4 +20,39 @@
         dest: "{{ repo_path }}"
         version: "{{ branch }}"
         force: yes
-      # AWX will use the linked credential for GitHub authentication
+      # The Source Control credential added to AWX will be used for authentication
+
+    - name: Find the inventory file
+      find:
+        paths: "{{ repo_path }}"
+        patterns: "inventory"  # Adjust if the file has a different name or extension
+      register: inventory_file_search
+
+    - name: Fail if no inventory file is found
+      fail:
+        msg: "No inventory file found in the repository!"
+      when: inventory_file_search.matched == 0
+
+    - name: Add new host entry to the inventory file
+      lineinfile:
+        path: "{{ inventory_file_search.files[0].path }}"
+        line: "{{ new_host }}"
+        insertafter: "[my_hosts]"  # Adjust based on your inventory file structure
+      register: inventory_update
+
+    - name: Commit the change
+      command: "git commit -am 'Added {{ new_host }} to inventory'"
+      args:
+        chdir: "{{ repo_path }}"
+      when: inventory_update.changed
+
+    - name: Push the change back to GitHub
+      command: "git push origin {{ branch }}"
+      args:
+        chdir: "{{ repo_path }}"
+      when: inventory_update.changed
+
+    - name: Display the newly added host
+      debug:
+        msg: "Host {{ new_host }} added to the inventory."
+      when: inventory_update.changed
