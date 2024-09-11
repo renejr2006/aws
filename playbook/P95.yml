@@ -8,7 +8,7 @@
   tasks:
     - name: Downloading p95
       command: >
-        wget -N ftp://10.230.136.14/tests/linux/tday/p95.tar.xz -O /tmp/p95.tar.xz
+        wget -N ftp://10.230.136.14/tests/linux/tday/p95/p95.tar.xz -O /tmp/p95.tar.xz
         
     - name: Gave chmod +x to tar.xz 
       ansible.builtin.file:
