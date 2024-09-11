@@ -44,6 +44,7 @@
       args:
         chdir: "{{ repo_path }}"
       when: inventory_update.changed
+      ignore_errors: yes
 
     - name: Push the change back to GitHub
       command: "git push origin {{ branch }}"
