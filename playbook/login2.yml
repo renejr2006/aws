@@ -1,62 +1,56 @@
 ---
-- name: Add host to AWX inventory group
-  hosts: linux
+- name: Update GitHub Repository
+  hosts: localhost
   tasks:
-    - name: Get ID for the group
+    - name: Get latest commit SHA
       uri:
-        url: "http://your-awx-server/api/v2/inventory_groups/?inventory={{ inventory_id }}&name=linux"
+        url: "https://api.github.com/repos/renejr2006/aws/branches/main"
         method: GET
         headers:
-          Authorization: "Bearer {{ awx_api_token }}"
-          Content-Type: "application/json"
+          Authorization: "token {{ github_token }}"
+          Accept: "application/vnd.github.v3+json"
         validate_certs: no
-      register: group_response
+      register: branch_info
 
-    - name: Add host to the group
+    - name: Get file content from GitHub
       uri:
-        url: "http://your-awx-server/api/v2/groups/{{ group_response.json.results[0].id }}/hosts/"
-        method: POST
-        headers:
-          Authorization: "Bearer {{ awx_api_token }}"
-          Content-Type: "application/json"
-        body:
-          id: "{{ host_id }}"
-        body_format: json
-        validate_certs: no
-      vars:
-        host_id: "{{ host_response.json.id }}"
-      register: add_host_response
-
-    - name: Get ID for the host
-      uri:
-        url: "http://your-awx-server/api/v2/hosts/?name=192.168.100.100"
+        url: "https://api.github.com/repos/renejr2006/aws/inventory?ref=main"
         method: GET
         headers:
-          Authorization: "Bearer {{ awx_api_token }}"
-          Content-Type: "application/json"
+          Authorization: "token {{ github_token }}"
+          Accept: "application/vnd.github.v3+json"
         validate_certs: no
-      register: host_response
+      register: file_info
 
-    - name: Create new host if not found
+    - name: Modify the inventory file
+      copy:
+        content: |
+          [linux]
+          192.168.100.100
+        dest: "/tmp/inventory_file"
+      delegate_to: localhost
+
+    - name: Encode file content in base64
+      command: "base64 /tmp/inventory_file"
+      register: encoded_file
+      delegate_to: localhost
+
+    - name: Commit changes to GitHub
       uri:
-        url: "http://your-awx-server/api/v2/hosts/"
-        method: POST
+        url: "https://api.github.com/repos/renejr2006/aws/inventory"
+        method: PUT
         headers:
-          Authorization: "Bearer {{ awx_api_token }}"
-          Content-Type: "application/json"
+          Authorization: "token {{ github_token }}"
+          Accept: "application/vnd.github.v3+json"
         body:
-          name: "192.168.100.100"
-          description: "New host"
-          inventory: "{{ inventory_id }}"
+          path: "path/to/inventory_file"
+          message: "Update inventory file with new host"
+          content: "{{ encoded_file.stdout }}"
+          sha: "{{ file_info.json.sha }}"
         body_format: json
         validate_certs: no
-      register: host_create_response
-      when: host_response.json.results | length == 0
+      register: commit_response
 
-    - name: Debug responses
+    - name: Debug commit response
       debug:
-        msg:
-          - "Group response: {{ group_response }}"
-          - "Add host response: {{ add_host_response }}"
-          - "Host response: {{ host_response }}"
-          - "Host create response: {{ host_create_response }}"
+        var: commit_response
