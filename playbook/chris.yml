@@ -1,0 +1,58 @@
+---
+- name: Update GitHub Repository
+  hosts: localhost
+  vars_files:
+    - secrets.yml  # Only needed if using other secrets
+  tasks:
+    - name: Get latest commit SHA
+      uri:
+        url: "https://api.github.com/repos/renejr2006/aws/branches/main"
+        method: GET
+        headers:
+          Authorization: "token {{ github_token }}"
+          Accept: "application/vnd.github.v3+json"
+        validate_certs: no
+      register: branch_info
+
+    - name: Get file content from GitHub
+      uri:
+        url: "https://api.github.com/repos/renejr2006/aws/contents/path/to/inventory_file?ref=main"
+        method: GET
+        headers:
+          Authorization: "token {{ github_token }}"
+          Accept: "application/vnd.github.v3+json"
+        validate_certs: no
+      register: file_info
+
+    - name: Modify the inventory file
+      copy:
+        content: |
+          [linux]
+          192.168.100.100
+        dest: "/tmp/inventory_file"
+      delegate_to: localhost
+
+    - name: Encode file content in base64
+      command: "base64 /tmp/inventory_file"
+      register: encoded_file
+      delegate_to: localhost
+
+    - name: Commit changes to GitHub
+      uri:
+        url: "https://api.github.com/repos/renejr2006/aws/contents/path/to/inventory_file"
+        method: PUT
+        headers:
+          Authorization: "token {{ github_token }}"
+          Accept: "application/vnd.github.v3+json"
+        body:
+          path: "path/to/inventory_file"
+          message: "Update inventory file with new host"
+          content: "{{ encoded_file.stdout }}"
+          sha: "{{ file_info.json.sha }}"
+        body_format: json
+        validate_certs: no
+      register: commit_response
+
+    - name: Debug commit response
+      debug:
+        var: commit_response
