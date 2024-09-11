@@ -1,0 +1,37 @@
+---
+- name: P95
+  hosts: linux
+  gather_facts: True
+  become: yes
+  #vars_files:
+  #   - all.yml
+  tasks:
+    - name: Downloading p95
+      command: >
+        wget -N ftp://10.230.136.14/tests/linux/tday/p95 -O /tmp/p95.tar.xz
+        
+    - name: Gave chmod +x to tar.xz 
+      ansible.builtin.file:
+        path: /tmp/p95.tar.xz
+        mode: '0755'
+        state: file
+
+    - name: Extracting tar.xz
+      ansible.builtin.unarchive:
+        src: /tmp/p95.tar.xz
+        dest: /tmp/
+        remote_src: yes
+
+#---------------------------------------------------
+#---------------------------------------------------
+    - name: Run ins
+      ansible.builtin.command:
+        cmd: /tmp/p95/install-p95-ubu.sh
+      args:
+        chdir: /tmp/p95/
+        
+    - name: Run run-p95
+      ansible.builtin.command:
+        cmd: /tmp/stressng/run-p95.sh 86400 cmp
+      args:
+        chdir: /tmp/stressng
