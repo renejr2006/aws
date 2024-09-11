@@ -3,7 +3,7 @@
   hosts: localhost
   gather_facts: no
   vars:
-    repo_url: "https://github.com/renejr2006/aws.git"  # No need to include credentials here
+    repo_url: "https://github.com/renejr2006/aws.git"  # Your GitHub repository URL
     repo_name: "aws"
     repo_path: "/tmp/{{ repo_name }}"
     branch: "main"
@@ -20,39 +20,38 @@
         dest: "{{ repo_path }}"
         version: "{{ branch }}"
         force: yes
-      # The Source Control credential added to AWX will be used for authentication
+      # The Source Control credential in AWX will be used for GitHub authentication
 
-    - name: Find the inventory file
-      find:
-        paths: "{{ repo_path }}"
-        patterns: "inventory"  # Adjust if the file has a different name or extension
-      register: inventory_file_search
+    - name: Ensure the inventory file exists in the repo
+      stat:
+        path: "{{ repo_path }}/inventory"
+      register: inventory_file_check
 
-    - name: Fail if no inventory file is found
+    - name: Fail if no inventory file is found in the repository
       fail:
         msg: "No inventory file found in the repository!"
-      when: inventory_file_search.matched == 0
+      when: not inventory_file_check.stat.exists
 
     - name: Add new host entry to the inventory file
       lineinfile:
-        path: "{{ inventory_file_search.files[0].path }}"
+        path: "{{ repo_path }}/inventory"
         line: "{{ new_host }}"
-        insertafter: "[my_hosts]"  # Adjust based on your inventory file structure
+        insertafter: "[my_hosts]"  # Adjust this based on your inventory file structure
       register: inventory_update
 
-    - name: Commit the change
+    - name: Commit changes if the inventory was updated
       command: "git commit -am 'Added {{ new_host }} to inventory'"
       args:
         chdir: "{{ repo_path }}"
       when: inventory_update.changed
 
-    - name: Push the change back to GitHub
+    - name: Push the changes to the GitHub repository
       command: "git push origin {{ branch }}"
       args:
         chdir: "{{ repo_path }}"
       when: inventory_update.changed
 
-    - name: Display the newly added host
+    - name: Display a message if the new host was added
       debug:
         msg: "Host {{ new_host }} added to the inventory."
       when: inventory_update.changed
