@@ -3,7 +3,7 @@
   hosts: localhost
   gather_facts: no
   vars:
-    repo_url: "https://github.com/renejr2006/aws.git"
+    repo_url: "https://{{ github_username }}:{{ github_token }}@github.com/renejr2006/aws.git"
     repo_name: "aws"
     repo_path: "/tmp/{{ repo_name }}"
     branch: "main"
@@ -16,6 +16,8 @@
         repo: "{{ repo_url }}"
         dest: "{{ repo_path }}"
         version: "{{ branch }}"
+        github_username: renejr2006
+        gihub_token: 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
         force: yes
 
     - name: Find the inventory file
