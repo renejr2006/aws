@@ -12,13 +12,13 @@
         
     - name: Gave chmod +x to tar.xz 
       ansible.builtin.file:
-        path: /tmp/stressng.tar.xz
+        path: /tmp/kernel-compile.tar.xz
         mode: '0755'
         state: file
 
     - name: Extracting tar.xz
       ansible.builtin.unarchive:
-        src: /tmp/stressng.tar.xz
+        src: /tmp/kernel-compile.tar.xz
         dest: /tmp/
         remote_src: yes
 
