@@ -30,18 +30,18 @@
         
     - name: Pinging PDU 2
         ansible.builtin.wait_for:
-        host3: "{{ PDUIP2 }}"
+        host: "{{ PDUIP2 }}"
         state: started
         timeout: 5
     - name:
         ansible.builtin.wait_for:
-        host4: "{{ PDUPort1 }}"
+        host: "{{ PDUPort1 }}"
         state: started
         timeout: 5
 
     - name:
        ansible.builtin.wait_for:
-        host5: "{{ PDUPort2 }}"
+        host: "{{ PDUPort2 }}"
         state: started
         timeout: 5
     #- name:
