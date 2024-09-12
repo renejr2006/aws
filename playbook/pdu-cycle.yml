@@ -3,12 +3,12 @@
   hosts: localhost
   gather_facts: no
   vars:
-    SUT: "{{ survery_SUT }}"
-    BMC: "{{ survery_BMC }}"
-    PDUIP1: "{{ survery_PDUIP1 }}"
-    PDUIP2: "{{ survery_PDUIP2 }}"
-    PDUPort1: "{{ survery_PDUPort1 }}"
-    PDUPort2: "{{ survery_PDUPort2 }}"
+    SUT: "{{ survey_SUT }}"
+    BMC: "{{ survey_BMC }}"
+    PDUIP1: "{{ survey_PDUIP1 }}"
+    PDUIP2: "{{ survey_PDUIP2 }}"
+    PDUPort1: "{{ survey_PDUPort1 }}"
+    PDUPort2: "{{ survey_PDUPort2 }}"
     PDU_User: amd
     PDU_Password: AMDer123
   tasks:
