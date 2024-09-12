@@ -14,32 +14,36 @@
   tasks:
     - name: Pinging SUT
       ansible.builtin.wait_for:
-        host0: "{{ SUT }}"
+        host: "{{ SUT }}"
         state: started
         timeout: 5
     - name: Pinging BMC
       ansible.builtin.wait_for:
-        host1: "{{ BMC }}"
+        host: "{{ BMC }}"
         state: started
         timeout: 5
     - name: Pinging PDU 1
       ansible.builtin.wait_for:
-        host2: "{{ PDUIP1 }}"
+        host: "{{ PDUIP1 }}"
         state: started
         timeout: 5
+        
+    - name: Pinging PDU 2
+        ansible.builtin.wait_for:
         host3: "{{ PDUIP2 }}"
         state: started
         timeout: 5
+    - name:
+        ansible.builtin.wait_for:
         host4: "{{ PDUPort1 }}"
         state: started
         timeout: 5
-        host5: "{{ PDUPort2 }}"
 
+    - name:
+       ansible.builtin.wait_for:
+        host5: "{{ PDUPort2 }}"
         state: started
         timeout: 5
-    #- name: Pinging PDU 2
-    #- name:
-    #- name:
     #- name:
     #- name:
     #- name:
