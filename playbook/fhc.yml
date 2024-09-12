@@ -1,0 +1,34 @@
+---
+- name: Manage Background Task and Continue
+  hosts: linux
+  become: yes
+  tasks:
+    - name: Downloading stressng
+      command: >
+        wget -N ftp://10.230.136.14/Public/Rene/tests/fhc.tar.xz -O /tmp/fhc.tar.xz
+
+    - name: Give chmod +x to tar.xz
+      ansible.builtin.file:
+        path: /tmp/fhc.tar.xz
+        mode: '0755'
+        state: file
+
+    - name: Extracting tar.xz
+      ansible.builtin.unarchive:
+        src: /tmp/fhc.tar.xz
+        dest: /tmp/
+        remote_src: yes
+
+
+    - name: Run Install Stream
+      ansible.builtin.shell: /tmp/fhc/install-fhc-ubu.sh
+      args:
+        chdir: /tmp/fhc/
+        
+    - name: Run Stream 86400
+      ansible.builtin.shell: ./run-fhc.sh 86400
+      args:
+        chdir: /tmp/fhc/
+      ignore_errors: yes
+      environment:
+        TERM: "xterm"
