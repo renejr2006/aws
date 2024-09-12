@@ -26,7 +26,7 @@
         chdir: /tmp/sat/
         
     - name: Run Stream 86400
-      ansible.builtin.shell: ./tmp/sat/run-sat.sh 86400
+      ansible.builtin.shell: ./run-sat.sh 86400
       args:
         chdir: /tmp/sat/
 
