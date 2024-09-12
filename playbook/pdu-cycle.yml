@@ -16,7 +16,12 @@
     #- name: Pinging BMC
     - name: Pinging PDU 1
       ansible.builtin.wait_for:
+        host: "{{ SUT }}"
+        host: "{{ BMC }}"
         host: "{{ PDUIP1 }}"
+        host: "{{ PDUIP2 }}"
+        host: "{{ PDUPort1 }}"
+        host: "{{ PDUPort2 }}"
 
         state: started
         timeout: 5
