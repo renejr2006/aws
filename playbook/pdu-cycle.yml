@@ -12,16 +12,18 @@
     PDU_User: amd
     PDU_Password: AMDer123
   tasks:
-    #- name: Pinging SUT
-    #- name: Pinging BMC
-    - name: Pinging PDU 1
+    - name: Pinging SUT
       ansible.builtin.wait_for:
         host0: "{{ SUT }}"
         state: started
         timeout: 5
+    - name: Pinging BMC
+      ansible.builtin.wait_for:
         host1: "{{ BMC }}"
         state: started
         timeout: 5
+    - name: Pinging PDU 1
+      ansible.builtin.wait_for:
         host2: "{{ PDUIP1 }}"
         state: started
         timeout: 5
