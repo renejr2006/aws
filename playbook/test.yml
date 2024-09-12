@@ -29,6 +29,9 @@
       ansible.builtin.shell: ./run-sat.sh 86400
       args:
         chdir: /tmp/sat/
+      ignore_errors: yes
+      environment:
+        TERM: "xterm"
 
 #    - name: Run install script asynchronously
 #      ansible.builtin.command:
