@@ -16,7 +16,7 @@
     #- name: Pinging BMC
     - name: Pinging PDU 1
       ansible.builtin.wait_for:
-        data: "{{ PDUIP1 }}"
+        host: "{{ PDUIP1 }}"
 
         state: started
         timeout: 5
