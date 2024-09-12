@@ -34,6 +34,7 @@
       ansible.builtin.command:
         cmd: ./run-kernel-compile.sh 86400
         #cmd: /tmp/stressng/run-stressng.sh 86400 cmp
-        
       args:
         chdir: /tmp/kernel-compile/
+      environment:
+        TERM: "xterm"
