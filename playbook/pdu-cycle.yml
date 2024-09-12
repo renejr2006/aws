@@ -1,0 +1,24 @@
+---
+- name: Powercycle the SUT
+  hosts: localhost
+  gather_facts: no
+  vars:
+    SUT: "{{ survery_SUT }}"
+    BMC: "{{ survery_BMC }}"
+    PDUIP1: "{{ survery_PDUIP1 }}"
+    PDUIP2: "{{ survery_PDUIP2 }}"
+    PDUPort1: "{{ survery_PDUPort1 }}"
+    PDUPort2: "{{ survery_PDUPort2 }}"
+    PDU_User: amd
+    PDU_Password: AMDer123
+  tasks:
+    - name: Pinging SUT
+    - name: Pinging BMC
+    - name: Pinging PDU 1
+    - name: Pinging PDU 2
+    - name:
+    - name:
+    - name:
+    - name:
+    - name:
+    - name:
