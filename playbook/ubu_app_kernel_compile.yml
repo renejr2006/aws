@@ -6,7 +6,7 @@
   #vars_files:
   #   - all.yml
   tasks:
-    - name: Downloading stressng
+    - name: Downloading kernel-compile
       command: >
         wget -N ftp://10.230.136.14/Public/Rene/tests/kernel-compile.tar.xz -O /tmp/kernel-compile.tar.xz
         
@@ -26,7 +26,7 @@
 #---------------------------------------------------
     - name: Run ins
       ansible.builtin.command:
-        cmd: /tmp/stressng/install-kernel-compile-ubu.sh
+        cmd: /tmp/kernel-compile/install-kernel-compile-ubu.sh
       args:
         chdir: /tmp/kernel-compile/
         
