@@ -33,17 +33,17 @@
         host: "{{ PDUIP2 }}"
         state: started
         timeout: 5
-    - name:
+    - name: Pinging Port 1
         ansible.builtin.wait_for:
         host: "{{ PDUPort1 }}"
         state: started
         timeout: 5
 
-    - name:
+    - name: Pinging Port 2
        ansible.builtin.wait_for:
-        host: "{{ PDUPort2 }}"
-        state: started
-        timeout: 5
+       host: "{{ PDUPort2 }}"
+       state: started
+       timeout: 5
     #- name:
     #- name:
     #- name:
