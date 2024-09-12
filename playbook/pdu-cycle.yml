@@ -17,6 +17,9 @@
     - name: Pinging PDU 1
       ansible.builtin.ping:
         data: "{{ PDUIP1 }}"
+
+        state: started
+        timeout: 5
     - name: Pinging PDU 2
     - name:
     - name:
