@@ -19,28 +19,39 @@
         dest: /tmp/
         remote_src: yes
 
-    - name: Run install script asynchronously
-      ansible.builtin.command:
-        cmd: /tmp/sat/install-sat-ubu.sh
-      async: 86400  # Max run time in seconds (e.g., 24 hours)
-      poll: 10      # Check status every 10 seconds
-      register: async_result
 
-    - name: Wait for the install script to complete
-      ansible.builtin.async_status:
-        jid: "{{ async_result.ansible_job_id }}"
-      register: job_result
-      until: job_result.finished
-      retries: 8640  # Number of retries
-      delay: 10      # Delay between retries in seconds
-
-    - name: Run run-sat script
-      ansible.builtin.command:
-        cmd: /tmp/sat/run-sat.sh 86400 cmp
+    - name: Run Install Stream
+      ansible.builtin.shell: /tmp/sat/install-sat-ubu.sh
       args:
-        chdir: /tmp/sat
-      when: job_result.finished
+        chdir: /tmp/sat/
+        
+    - name: Run Stream 86400
+      ansible.builtin.shell: "/tmp/sat/run-sa.sh 86400"
+      args:
+        chdir: /tmp/sat/
 
-    - name: Print job result
-      ansible.builtin.debug:
-        msg: "Install script completed with result: {{ job_result }}"
+#    - name: Run install script asynchronously
+#      ansible.builtin.command:
+#        cmd: /tmp/sat/install-sat-ubu.sh
+#      async: 86400  # Max run time in seconds (e.g., 24 hours)
+#      poll: 10      # Check status every 10 seconds
+#      register: async_result
+
+#    - name: Wait for the install script to complete
+#      ansible.builtin.async_status:
+#        jid: "{{ async_result.ansible_job_id }}"
+#      register: job_result
+#      until: job_result.finished
+#      retries: 8640  # Number of retries
+#      delay: 10      # Delay between retries in seconds
+
+#    - name: Run run-sat script
+#      ansible.builtin.command:
+#        cmd: /tmp/sat/run-sat.sh 86400 cmp
+#      args:
+#        chdir: /tmp/sat
+#      when: job_result.finished
+
+#    - name: Print job result
+#      ansible.builtin.debug:
+#        msg: "Install script completed with result: {{ job_result }}"
