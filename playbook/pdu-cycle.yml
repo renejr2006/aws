@@ -15,7 +15,7 @@
     #- name: Pinging SUT
     #- name: Pinging BMC
     - name: Pinging PDU 1
-      ansible.builtin.ping:
+      ansible.builtin.wait_for:
         data: "{{ PDUIP1 }}"
 
         state: started
