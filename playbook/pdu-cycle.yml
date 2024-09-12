@@ -1,6 +1,6 @@
 ---
 - name: Powercycle the SUT
-  hosts: localhost
+  hosts: my
   gather_facts: no
   vars:
     SUT: "{{ survery_SUT }}"
