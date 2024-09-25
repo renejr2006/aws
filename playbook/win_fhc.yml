@@ -11,19 +11,19 @@
 
     - name: Copy ZIP files from remote to local directory
       win_copy:
-        src: '\\10.10.10.10\Public\Rene\test\'
+        src: '\\10.230.136.14\Public\Rene\test\'
         dest: 'C:\users\administrator\Downloads'
         remote_src: yes
 
     - name: Copy Windows_Export-Logs.bat to FHC directory
       win_copy:
-        src: '\\10.10.10.10\Public\Rene\Scripts\Personal\Windows_Export-Logs.bat'
+        src: '\\10.230.136.14\Public\Rene\Scripts\Personal\Windows_Export-Logs.bat'
         dest: 'C:\users\administrator\Downloads\FHC\'
         remote_src: yes
 
     - name: Copy log-checkandclear.bat to FHC directory
       win_copy:
-        src: '\\10.10.10.10\Public\Rene\Scripts\Personal\log-checkandclear.bat'
+        src: '\\10.230.136.14\Public\Rene\Scripts\Personal\log-checkandclear.bat'
         dest: 'C:\users\administrator\Downloads\FHC\'
         remote_src: yes
 
