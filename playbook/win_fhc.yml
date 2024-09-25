@@ -71,20 +71,9 @@
         patterns: 'FHC.exe'
         recurse: yes
       register: fhc_search
-    
-    - name: 
-      win_get_url:
-        url: https://download.sysinternals.com/files/PSTools.zip
-        dst: c:\temp\PSTools.zip
-
-    - name: unzip
-      win_unzip:
-        src: c:\temp\PSTools.zip
-        dest: c:\temp\PSTools
-        remove: yes
         
     - name: Run FHC.exe if found
      #win_command: 'C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe -r 1440'
       win_shell: |
         #psexec -i -accepteula "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" -r 1440
-        c:\temp\PSTools\psexec.exe -i "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" -r 1440
+        C:\users\administrator\Downloads\psexec.exe -i "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" -r 1440
