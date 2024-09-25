@@ -73,14 +73,4 @@
       register: fhc_search
 
     - name: Run FHC.exe if found
-      win_shell: |
-        pushd {{ item.path }}
-        FHC.exe -r 1440
-        popd
-      loop: "{{ fhc_search.files }}"
-      when: fhc_search.matched > 0
-
-    - name: Fail if FHC.exe is not found
-      fail:
-        msg: 'FHC.exe not found in C:\users\administrator\Downloads\FHC'
-      when: fhc_search.matched == 0
+      win_command: 'FHC.exe -r 1440'
