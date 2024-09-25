@@ -72,9 +72,14 @@
         recurse: yes
       register: fhc_search
         
-    - name: Run FHC.exe if found
-     #win_command: 'C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe -r 1440'
-      #win_shell: |
-        #psexec -i -accepteula "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" -r 1440
-        #C:\users\administrator\Downloads\psexec.exe -i "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" -r 1440
-      win_command: Start-Process -FilePath "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" ArgumentList "-r 1440"
+    - name: Get logged-in user session ID
+      win_command: query user
+      register: user_session_info
+
+    - name: Set session ID variable
+      set_fact:
+        session_id: "{{ user_session_info.stdout_lines[0].split()[2] }}"  # Adjust index based on output
+
+    - name: Run FHC.exe with GUI using PsExec
+      win_shell: |
+        C:\Temp\PSTools\PsExec.exe -i {{ session_id }} "C:\path\to\FHC.exe" -r 1440
