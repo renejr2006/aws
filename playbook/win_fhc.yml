@@ -28,17 +28,17 @@
           Write-Host "Extracted: $($_.FullName)"
         }
 
-    #- name: Execute Windows_Export-Logs.bat
-    #  win_shell: |
-    #    C:\users\administrator\Downloads\FHC\Windows_Export-Logs.bat
+    - name: Execute Windows_Export-Logs.bat
+      win_shell: |
+        C:\users\administrator\Downloads\FHC\Windows_Export-Logs.bat
 
-    #- name: Execute log-checkandclear.bat with "check"
-    #  win_shell: |
-    #    C:\users\administrator\Downloads\FHC\log-checkandclear.bat check
+    - name: Execute log-checkandclear.bat with "check"
+      win_shell: |
+        C:\users\administrator\Downloads\FHC\log-checkandclear.bat check
 
-    #- name: Execute log-checkandclear.bat with "clear"
-    #  win_shell: |
-    #    C:\users\administrator\Downloads\FHC\log-checkandclear.bat clear
+    - name: Execute log-checkandclear.bat with "clear"
+      win_shell: |
+        C:\users\administrator\Downloads\FHC\log-checkandclear.bat clear
 
     - name: List power schemes
       win_command: powercfg /list
