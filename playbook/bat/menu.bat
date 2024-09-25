@@ -38,7 +38,7 @@ if "%choice%"=="8" goto OPTION3
 if "%choice%"=="x" goto Exit
 
 :setup
-call \\10.230.136.14\Public\Rene\Scripts\Personal\menu\submenu.bat
+call \\10.230.136.14\Public\Rene\Scripts\Personal\menu\menu_submenu.bat
 
 :cinebench
 echo Cinebench
