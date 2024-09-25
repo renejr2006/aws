@@ -11,8 +11,8 @@
 
     - name: Copy ZIP files from remote to local directory
       win_copy:
-        src: '\\10.230.136.14\Public\Rene\test\'
-        dest: 'C:\users\administrator\Downloads'
+        src: '\\10.230.136.14\Public\Rene\tests\fhc\'
+        dest: 'C:\users\administrator\Downloads\FHC\'
         remote_src: yes
 
     - name: Copy Windows_Export-Logs.bat to FHC directory
