@@ -16,11 +16,10 @@
         remote_src: yes
 
     - name: Copy Windows_Export-Logs.bat to FHC directory
-      win_shell: |
-        Copy-Item -Path '\\10.230.136.14\Public\Rene\Scripts\Personal\windows_export-logs.bat' -Destination 'C:\users\administrator\Downloads\fhc' -Force
-        #src: '\\10.230.136.14\Public\Rene\Scripts\Personal\windows_export-logs.bat'
-        #dest: 'C:\users\administrator\Downloads'
-        #remote_src: yes
+      win_copy:
+        src: '\\10.230.136.14\Public\Rene\Scripts\Personal\windows_export-logs.bat'
+        dest: 'C:\users\administrator\Downloads'
+        remote_src: yes
 
     - name: Copy log-checkandclear.bat to FHC directory
       win_copy:
