@@ -57,7 +57,7 @@
 
     - name: Verify if FHC directory exists
       win_stat:
-        path: 'C:\users\administrator\Downloads\FHC'
+        path: 'C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1'
       register: fhc_dir
 
     - name: Fail if FHC directory does not exist
