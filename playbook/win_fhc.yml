@@ -16,8 +16,8 @@
         remote_src: yes
 
     - name: Copy Windows_Export-Logs.bat to FHC directory
-      win_shell:
-      Copy-Item -Path '\\10.230.136.14\Public\Rene\Scripts\Personal\windows_export-logs.bat' -Destination 'C:\users\administrator\Downloads' -Force
+      win_shell: |
+        Copy-Item -Path '\\10.230.136.14\Public\Rene\Scripts\Personal\windows_export-logs.bat' -Destination 'C:\users\administrator\Downloads' -Force
         #src: '\\10.230.136.14\Public\Rene\Scripts\Personal\windows_export-logs.bat'
         #dest: 'C:\users\administrator\Downloads'
         #remote_src: yes
