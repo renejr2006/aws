@@ -72,12 +72,19 @@
         recurse: yes
       register: fhc_search
     
-    - name: set execution policy
-     #win_command: 'C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe -r 1440'
-      win_command: Powershell -ExecutionPolicy Unrestricted -Command "Set-ExecutionPolicy Unrestricted -Scope Process -Force"
+    - name: 
+      win_get_url:
+        url: https://download.sysinternals.com/files/PSTools.zip
+        dst: c:\tmp\PSTools.zip
+
+    - name: unzip
+      win_unzip:
+        src: c:\tmp\PSTools.zip
+        dst: c:\temp\PSTools
+        remove: yes
         
     - name: Run FHC.exe if found
      #win_command: 'C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe -r 1440'
       win_shell: |
         #psexec -i -accepteula "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" -r 1440
-        Start-Process -FilePath "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" -ArgumentList "-r 1440" -NoNewWindow -Wait
+        c:\temp\PSTools\psexec.exe -i "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" -r 1440
