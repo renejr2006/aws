@@ -1,0 +1,86 @@
+---
+- name: Convert batch script to Ansible
+  hosts: windows
+  gather_facts: no
+  tasks:
+
+    - name: Create the FHC directory
+      win_file:
+        path: 'C:\users\administrator\Downloads\FHC'
+        state: directory
+
+    - name: Copy ZIP files from remote to local directory
+      win_copy:
+        src: '\\10.10.10.10\Public\Rene\test\'
+        dest: 'C:\users\administrator\Downloads'
+        remote_src: yes
+
+    - name: Copy Windows_Export-Logs.bat to FHC directory
+      win_copy:
+        src: '\\10.10.10.10\Public\Rene\Scripts\Personal\Windows_Export-Logs.bat'
+        dest: 'C:\users\administrator\Downloads\FHC\'
+        remote_src: yes
+
+    - name: Copy log-checkandclear.bat to FHC directory
+      win_copy:
+        src: '\\10.10.10.10\Public\Rene\Scripts\Personal\log-checkandclear.bat'
+        dest: 'C:\users\administrator\Downloads\FHC\'
+        remote_src: yes
+
+    - name: Expand each ZIP archive into the FHC directory
+      win_shell: |
+        Get-ChildItem -Path 'C:\users\administrator\Downloads\*.zip' | ForEach-Object {
+          Expand-Archive -Path $_.FullName -DestinationPath "C:\users\administrator\Downloads\FHC\$(($_.Name -replace '.zip',''))"
+          Write-Host "Extracted: $($_.FullName)"
+        }
+
+    - name: Execute Windows_Export-Logs.bat
+      win_shell: |
+        C:\users\administrator\Downloads\FHC\Windows_Export-Logs.bat
+
+    - name: Execute log-checkandclear.bat with "check"
+      win_shell: |
+        C:\users\administrator\Downloads\FHC\log-checkandclear.bat check
+
+    - name: Execute log-checkandclear.bat with "clear"
+      win_shell: |
+        C:\users\administrator\Downloads\FHC\log-checkandclear.bat clear
+
+    - name: List power schemes
+      win_command: powercfg /list
+
+    - name: Set power scheme to SCHEME_MIN
+      win_command: powercfg /setactive SCHEME_MIN
+
+    - name: List power schemes again
+      win_command: powercfg /list
+
+    - name: Verify if FHC directory exists
+      win_stat:
+        path: 'C:\users\administrator\Downloads\FHC'
+      register: fhc_dir
+
+    - name: Fail if FHC directory does not exist
+      fail:
+        msg: 'Directory C:\users\administrator\Downloads\FHC does not exist'
+      when: not fhc_dir.stat.exists
+
+    - name: Search for FHC.exe and run if found
+      win_find:
+        paths: 'C:\users\administrator\Downloads\FHC'
+        patterns: 'FHC.exe'
+        recurse: yes
+      register: fhc_search
+
+    - name: Run FHC.exe if found
+      win_shell: |
+        pushd {{ item.path }}
+        FHC.exe -r 1440
+        popd
+      loop: "{{ fhc_search.files }}"
+      when: fhc_search.matched > 0
+
+    - name: Fail if FHC.exe is not found
+      fail:
+        msg: 'FHC.exe not found in C:\users\administrator\Downloads\FHC'
+      when: fhc_search.matched == 0
