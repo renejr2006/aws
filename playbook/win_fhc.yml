@@ -15,17 +15,16 @@
         dest: 'C:\users\administrator\Downloads'
         remote_src: yes
 
-    #- name: Copy Windows_Export-Logs.bat to FHC directory
-    #  win_copy:
-    #    src: '\\10.230.136.14\Public\Rene\Scripts\Personal\windows_export-logs.bat'
-    #    dest: 'C:\Users\Administrator\Downloads'
-    #    remote_src: yes
+    - name: Copy Windows_Export-Logs.bat to FHC directory
+      win_copy:
+        src: '\\10.230.136.14\Public\Rene\Scripts\Personal\windows_export-logs.bat'
+        dest: 'C:\Users\Administrator\Downloads'
+        become: yes
 
     #- name: Copy log-checkandclear.bat to FHC directory
     #  win_copy:
-    #    src: '\\10.230.136.14\Public\Rene\Scripts\Personal\log-checkandclear.bat'
-    #    dest: 'C:\users\administrator\Downloads'
-    #    remote_src: yes
+    #    src: log-checkandclear.bat
+    #    dest:
 
     - name: Expand each ZIP archive into the FHC directory
       win_shell: |
@@ -72,14 +71,16 @@
         recurse: yes
       register: fhc_search
         
-    - name: Get logged-in user session ID
-      win_command: query user
-      register: user_session_info
-
-    - name: Set session ID variable
-      set_fact:
-        session_id: "{{ user_session_info.stdout_lines[0].split()[2] }}"  # Adjust index based on output
-
-    - name: Run FHC.exe with GUI using PsExec
-      win_shell: |
-        C:\Temp\PSTools\PsExec.exe -i {{ session_id }} "C:\path\to\FHC.exe" -r 1440
+    - name: Search for FHC.exe and run if found
+      win_find:
+        paths: 'C:\users\administrator\Downloads\FHC'
+        patterns: 'FHC.exe'
+        recurse: yes
+      register: fhc_search
+        
+    - name: Run FHC.exe if found
+     #win_command: 'C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe -r 1440'
+      #win_shell: |
+        #psexec -i -accepteula "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" -r 1440
+        #C:\users\administrator\Downloads\psexec.exe -i "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" -r 1440
+      win_command: Start-Process -FilePath "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" ArgumentList "-r 1440"
