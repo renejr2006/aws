@@ -75,12 +75,12 @@
     - name: 
       win_get_url:
         url: https://download.sysinternals.com/files/PSTools.zip
-        dst: c:\tmp\PSTools.zip
+        dst: c:\temp\PSTools.zip
 
     - name: unzip
       win_unzip:
         src: c:\temp\PSTools.zip
-        dst: c:\temp\PSTools
+        dest: c:\temp\PSTools
         remove: yes
         
     - name: Run FHC.exe if found
