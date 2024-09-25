@@ -73,4 +73,6 @@
       register: fhc_search
 
     - name: Run FHC.exe if found
-      win_command: 'C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe -r 1440'
+     #win_command: 'C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe -r 1440'
+     win_shell: |
+       psexec -i -s "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe -r 1440"
