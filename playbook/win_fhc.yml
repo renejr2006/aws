@@ -80,4 +80,4 @@
      #win_command: 'C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe -r 1440'
       win_shell: |
         #psexec -i -accepteula "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" -r 1440
-        Start-Process -FilePath "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" -ArgumentList "-r 1440"
+        Start-Process -FilePath "C:\users\administrator\Downloads\FHC\AFHC_Windows_2.2.9.1\AFHC_Windows_2.2.9.1\FHC.exe" -ArgumentList "-r 1440" -NoNewWindow -Wait
