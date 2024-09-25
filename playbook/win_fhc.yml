@@ -25,7 +25,7 @@
     #- name: Copy log-checkandclear.bat to FHC directory
     #  win_copy:
     #    src: log-checkandclear.bat
-    #    dest:
+    #    dest
 
     - name: Expand each ZIP archive into the FHC directory
       win_shell: |
