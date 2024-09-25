@@ -15,11 +15,11 @@
         dest: 'C:\users\administrator\Downloads'
         remote_src: yes
 
-    - name: Copy Windows_Export-Logs.bat to FHC directory
+    - name: Copy ZIP files from remote to local directory
       win_copy:
         src: '\\10.230.136.14\Public\Rene\tests\fhc\AFHC_Windows_2.2.9.1.zip'
-        dest: 'C:\Users\Administrator\Downloads\FHC'
-        become: yes
+        dest: 'C:\users\administrator\Downloads\FHC'
+        remote_src: yes
 
     #- name: Copy log-checkandclear.bat to FHC directory
     #  win_copy:
