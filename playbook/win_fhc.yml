@@ -12,12 +12,10 @@
     - name: Copy ZIP files from remote to local directory
       win_shell: |
         Copy-Item -Path '\\10.230.136.14\Public\Rene\tests\fhc\AFHC_Windows_2.2.9.1.zip' -Destination 'C:\users\administrator\Downloads'
-        remote_src: yes
 
     - name: Copy windows_export-logs.bat files from remote to local directory
       win_shell: |
         Copy-Item -Path '\\10.230.136.14\Public\Rene\tests\fhc\windows_export-logs.bat' -Destination 'C:\users\administrator\Downloads\FHC'
-        remote_src: yes
 
     - name: Copy log-checkandclear.bat to FHC directory
       win_shell: |
